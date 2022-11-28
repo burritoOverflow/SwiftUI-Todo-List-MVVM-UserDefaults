@@ -1,0 +1,16 @@
+# format options
+--allman true
+--indent tab # tabs FTW!
+--self insert
+--swiftversion 5.5
+--redundanttype explicit
+--maxwidth 92
+--trimwhitespace always
+
+# file options
+--exclude Pods
+
+# rules
+--disable elseOnSameLine,semicolons
+--enable redundantReturn, andOperator, isEmpty
+

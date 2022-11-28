@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ListView: View {
-    
     @EnvironmentObject var listViewModel: ListViewModel
-    
+
     var body: some View {
         ZStack {
             if listViewModel.items.isEmpty {
@@ -36,17 +35,23 @@ struct ListView: View {
         .navigationBarItems(
             leading: EditButton(),
             trailing:
-                NavigationLink("Add", destination: AddView())
-            )
+            NavigationLink("Add", destination: AddView())
+        )
     }
-
 }
 
 struct ListView_Previews: PreviewProvider {
+    private static func getMockListViewModel() -> ListViewModel {
+        let listViewModel = ListViewModel()
+        listViewModel.items = [ItemModel(title: "First", isCompleted: false),
+                               ItemModel(title: "Second", isCompleted: true)]
+        return listViewModel
+    }
+
     static var previews: some View {
         NavigationView {
             ListView()
         }
-        .environmentObject(ListViewModel())
+        .environmentObject(getMockListViewModel())
     }
 }

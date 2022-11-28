@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct AddView: View {
-    
     // MARK: PROPERTIES
-    
+
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var listViewModel: ListViewModel
     @State var textFieldText: String = ""
-    
+
     @State var alertTitle: String = ""
     @State var showAlert: Bool = false
-    
+
+    private let minChars = 7
+
     // MARK: BODY
-    
+
     var body: some View {
         ScrollView {
             VStack {
@@ -28,7 +29,7 @@ struct AddView: View {
                     .frame(height: 55)
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(10)
-                
+
                 Button(action: saveButtonPressed, label: {
                     Text("Save".uppercased())
                         .foregroundColor(.white)
@@ -44,32 +45,31 @@ struct AddView: View {
         .navigationTitle("Add an Item 🖊")
         .alert(isPresented: $showAlert, content: getAlert)
     }
-    
+
     // MARK: FUNCTIONS
-    
-    func saveButtonPressed() {
+
+    private func saveButtonPressed() {
         if textIsAppropriate() {
             listViewModel.addItem(title: textFieldText)
             presentationMode.wrappedValue.dismiss()
         }
     }
-    
-    func textIsAppropriate() -> Bool {
-        if textFieldText.count < 3 {
-            alertTitle = "Your new todo item must be at least 3 characters long!!! 😨😰😱"
+
+    private func textIsAppropriate() -> Bool {
+        if textFieldText.count < minChars {
+            alertTitle = "Your new todo item must be at least \(minChars) characters long."
             showAlert.toggle()
             return false
         }
         return true
     }
-    
-    func getAlert() -> Alert {
+
+    private func getAlert() -> Alert {
         return Alert(title: Text(alertTitle))
     }
-    
 }
 
-    // MARK: PREVIEW
+// MARK: PREVIEW
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
@@ -84,7 +84,6 @@ struct AddView_Previews: PreviewProvider {
             }
             .preferredColorScheme(.dark)
             .environmentObject(ListViewModel())
-
         }
     }
 }
